@@ -1,0 +1,20 @@
+{
+  "name": "nansim-engine",
+  "version": "1.0.0",
+  "description": "internal evaluation engine for NaNsim",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "piman51277",
+  "private": true,
+  "license": "UNLICENSED",
+  "dependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "7.15.0",
+    "@typescript-eslint/parser": "7.15.0",
+    "eslint": "8.57.0",
+    "eslint-plugin-jsdoc": "48.5.2",
+    "typescript": "5.5.3"
+  }
+}
