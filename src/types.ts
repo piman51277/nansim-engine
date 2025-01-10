@@ -1,6 +1,6 @@
 export type WireValue = {
-    data: Uint8Array; 
-    width: number; 
+    data: Uint8Array;
+    width: number;
 };
 
 //These are the state of objects as they are given to the engine
@@ -54,6 +54,8 @@ export type RawNetwork = {
     outputs: RawBinding[];
     type: ObjectTypes.NETWORK;
 }
+
+export type RawObject = RawInputPort | RawOutputPort | RawModule<any> | RawNetwork;
 
 //These are the internal state of bindings as they are used by the engine
 export interface EngineObject {
