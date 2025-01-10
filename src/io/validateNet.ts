@@ -1,18 +1,16 @@
 import { MAX_WIREVALUE_WIDTH } from "../constants";
 import { RawBinding, RawInputPort, RawModule, RawNetwork, ObjectTypes, RawOutputPort, RawObject } from "../types";
 
-
-type RawObjectArr = (RawObject)[];
 const validRawObjectTypes: string[] = Object.values(ObjectTypes);
 
 export type ValidationError = {
-    affects: RawObjectArr;
+    affects: RawObject[];
     message: string;
 }
 
 /**
  * Helper for creating a validation error
- * @param {RawObjectArr} affects The objects that are affected by the error
+ * @param {RawObject[]} affects The objects that are affected by the error
  * @param {string} message The message to append to the error
  * @returns {*}  {ValidationError}
  */
@@ -72,10 +70,10 @@ export function isValidWireValueWidth(width: number): null | string {
 
 /**
  * Validates a provided network
- * @param {RawObjectArr} arr The network to validate
+ * @param {RawObject[]} arr The network to validate
  * @returns {*} {null | ValidationError[]} Null if the network is valid, an array of validation errors otherwise
  */
-export function validateNet(arr: RawObjectArr): null | ValidationError[] {
+export function validateNet(arr: RawObject[]): null | ValidationError[] {
     const errors: ValidationError[] = [];
 
     //Stage 1: Populate mappings and check for duplicate IDs and valid types
