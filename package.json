@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint . --ext .ts"
   },
   "author": "piman51277",
   "private": true,

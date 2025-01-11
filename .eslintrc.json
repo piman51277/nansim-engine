@@ -15,10 +15,13 @@
   "plugins": ["@typescript-eslint", "jsdoc"],
   "rules": {
     "semi": ["warn", "always"],
+    "sort-imports": ["warn", { "ignoreCase": true }],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/explicit-function-return-type": "error",
     "@typescript-eslint/explicit-module-boundary-types": "error",
+    "@typescript-eslint/consistent-type-imports": "warn",
+    "@typescript-eslint/consistent-type-exports": "warn",
     "jsdoc/require-jsdoc": "error",
     "jsdoc/no-undefined-types": "off",
     "jsdoc/check-tag-names": ["warn", { "enableFixer": true, "typed": true }]
