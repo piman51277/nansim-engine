@@ -1,4 +1,10 @@
-export type WireValue = {
+/**
+ * Wire states
+ * 0 = Low
+ * 1 = High
+ * 2 = Floating (unknown)
+ */
+export type IWireValue = {
     data: Uint8Array;
     width: number;
 };
@@ -30,9 +36,9 @@ export type RawOutputPort = {
 }
 
 export interface Setable {
-    set(v: WireValue): void;
+    set(v: IWireValue): void;
 }
-export type ModuleTickFn<T> = (inputs: WireValue[], outputs: Setable[], state: T) => T;
+export type ModuleTickFn<T> = (inputs: IWireValue[], outputs: Setable[], state: T) => T;
 export enum ModuleType {
     INPUT = "INPUT",
     OUTPUT = "OUTPUT",
@@ -58,40 +64,42 @@ export type RawNetwork = {
 export type RawObject = RawInputPort | RawOutputPort | RawModule<any> | RawNetwork;
 
 //These are the internal state of bindings as they are used by the engine
-export interface EngineObject {
+export interface IEntityBase {
     id: number;
 }
 
-export interface Binding<T> extends EngineObject {
-    value: T;
+export interface IBinding<T> extends IEntityBase {
+    val: T | null;
 }
 
-export interface InputPort extends EngineObject {
-    bind: Binding<Module>;
-    value: WireValue;
+export interface IInputPort extends IEntityBase {
+    bind: IBinding<IModule>;
+    value: IWireValue;
     type: ObjectTypes.INPUT_PORT;
     reset: () => void;
 }
 
-export interface OutputPort extends EngineObject, Setable {
-    bind: Binding<Network>;
+export interface IOutputPort extends IEntityBase, Setable {
+    bind: IBinding<INetwork>;
     type: ObjectTypes.OUTPUT_PORT;
 }
 
-export interface Module extends EngineObject {
-    inputs: InputPort[];
-    outputs: OutputPort[];
+export interface IModule extends IEntityBase {
+    inputs: IInputPort[];
+    outputs: IOutputPort[];
     moduleType: ModuleType;
     //Since the type would have already been checked during import by RawModule, we can just use any here
     //We also don't know the exact type so we have to trust the end user
     resetState: any;
     state: any;
     type: ObjectTypes.MODULE;
-    tick: ModuleTickFn<any>;
+    tickFn: ModuleTickFn<any>;
     reset: () => void;
 }
 
-export interface Network extends EngineObject, Setable {
-    outputs: OutputPort[];
+export interface INetwork extends IEntityBase, Setable {
+    outputs: IInputPort[];
     type: ObjectTypes.NETWORK;
 }
+
+export type IEngineObject = IInputPort | IOutputPort | IModule | INetwork;

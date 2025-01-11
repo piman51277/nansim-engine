@@ -1,7 +1,7 @@
 import { ModuleType, ObjectTypes, RawBinding, RawInputPort, RawModule, RawNetwork, RawOutputPort } from "../../src/types";
 import { isValidBinding, validateNet } from "../../src/io/validateNet";
 import { MAX_WIREVALUE_WIDTH } from "../../src/constants";
-import { createCopyModule, createInputPort, createNetwork, createOutputPort } from "../common";
+import { createRawCopyModule, createRawInputPort, createRawNetwork, createRawOutputPort } from "../common";
 
 /** Stage 1 */
 
@@ -625,35 +625,35 @@ test("invalid width (low) network", () => {
 
 /** Comprehensive tests */
 test("single ref chain", () => {
-    const module1 = createCopyModule(1, [], [0]);
-    const module1Output = createOutputPort(0, 16, 10);
-    const network = createNetwork(10, 16, [20]);
-    const module2Input = createInputPort(20, 16, 21);
-    const module2 = createCopyModule(21, [20], []);
+    const module1 = createRawCopyModule(1, [], [0]);
+    const module1Output = createRawOutputPort(0, 16, 10);
+    const network = createRawNetwork(10, 16, [20]);
+    const module2Input = createRawInputPort(20, 16, 21);
+    const module2 = createRawCopyModule(21, [20], []);
 
     const elements = [module1Output, module1, network, module2Input, module2];
     const result = validateNet(elements);
     expect(result).toBeNull();
 });
 test("multiple ref chains", () => {
-    const module1 = createCopyModule(0, [], [1, 2]);
-    const module1Output1 = createOutputPort(1, 16, 10);
-    const module1Output2 = createOutputPort(2, 16, 11);
-    const network1 = createNetwork(10, 16, [20]);
-    const network2 = createNetwork(11, 16, [21]);
-    const module2Input1 = createInputPort(20, 16, 22);
-    const module2Input2 = createInputPort(21, 16, 22);
-    const module2 = createCopyModule(22, [20, 21], []);
+    const module1 = createRawCopyModule(0, [], [1, 2]);
+    const module1Output1 = createRawOutputPort(1, 16, 10);
+    const module1Output2 = createRawOutputPort(2, 16, 11);
+    const network1 = createRawNetwork(10, 16, [20]);
+    const network2 = createRawNetwork(11, 16, [21]);
+    const module2Input1 = createRawInputPort(20, 16, 22);
+    const module2Input2 = createRawInputPort(21, 16, 22);
+    const module2 = createRawCopyModule(22, [20, 21], []);
 
     const elements = [module1Output1, module1Output2, module1, network1, network2, module2Input1, module2Input2, module2];
     const result = validateNet(elements);
     expect(result).toBeNull();
 });
 test("circular dependency", () => {
-    const module1Input = createInputPort(0, 16, 1);
-    const module1 = createCopyModule(1, [0], [2]);
-    const module1Output = createOutputPort(2, 16, 3);
-    const network = createNetwork(3, 16, [0]);
+    const module1Input = createRawInputPort(0, 16, 1);
+    const module1 = createRawCopyModule(1, [0], [2]);
+    const module1Output = createRawOutputPort(2, 16, 3);
+    const network = createRawNetwork(3, 16, [0]);
 
     const elements = [module1Input, module1, module1Output, network];
     const result = validateNet(elements);

@@ -1,11 +1,11 @@
-import { ModuleType, ObjectTypes, RawBinding, RawInputPort, RawModule, RawNetwork, RawOutputPort, Setable, WireValue } from "../src/types";
+import { ModuleType, ObjectTypes, RawBinding, RawInputPort, RawModule, RawNetwork, RawOutputPort, Setable, IWireValue } from "../src/types";
 
 /**
  * Creates a binding object 
  * @param {number} id id to assign to the binding
  * @returns {*}  {RawBinding}
  */
-export function createBinding(id: number): RawBinding {
+export function createRawBinding(id: number): RawBinding {
     return {
         id
     };
@@ -18,11 +18,11 @@ export function createBinding(id: number): RawBinding {
  * @param {number} targetID id of the target binding
  * @returns {*}  {RawInputPort}
  */
-export function createInputPort(id: number, width: number, targetID: number): RawInputPort {
+export function createRawInputPort(id: number, width: number, targetID: number): RawInputPort {
     return {
         id,
         width,
-        bind: createBinding(targetID),
+        bind: createRawBinding(targetID),
         type: ObjectTypes.INPUT_PORT
     };
 }
@@ -34,11 +34,11 @@ export function createInputPort(id: number, width: number, targetID: number): Ra
  * @param {number} targetID id of the target binding
  * @returns {*}  {RawInputPort}
  */
-export function createOutputPort(id: number, width: number, targetID: number): RawOutputPort {
+export function createRawOutputPort(id: number, width: number, targetID: number): RawOutputPort {
     return {
         id,
         width,
-        bind: createBinding(targetID),
+        bind: createRawBinding(targetID),
         type: ObjectTypes.OUTPUT_PORT
     };
 }
@@ -50,14 +50,14 @@ export function createOutputPort(id: number, width: number, targetID: number): R
  * @param {number[]} outputIDs array of output binding IDs
  * @returns {*}  {RawModule<null>}
  */
-export function createCopyModule(id: number, inputIDs: number[], outputIDs: number[]): RawModule<null> {
+export function createRawCopyModule(id: number, inputIDs: number[], outputIDs: number[]): RawModule<null> {
     return {
         id,
-        inputs: inputIDs.map(createBinding),
-        outputs: outputIDs.map(createBinding),
+        inputs: inputIDs.map(createRawBinding),
+        outputs: outputIDs.map(createRawBinding),
         moduleType: ModuleType.DEFAULT,
         initialState: null,
-        tick: (inputs: WireValue[], outputs: Setable[]): null => {
+        tick: (inputs: IWireValue[], outputs: Setable[]): null => {
             for (let i = 0; i < inputs.length; i++) {
                 if (outputs[i]) outputs[i].set(inputs[i]);
             }
@@ -74,11 +74,11 @@ export function createCopyModule(id: number, inputIDs: number[], outputIDs: numb
  * @param {number[]} outputIDs array of output binding IDs
  * @returns {*}  {RawNetwork}
  */
-export function createNetwork(id: number, width: number, outputIDs: number[]): RawNetwork {
+export function createRawNetwork(id: number, width: number, outputIDs: number[]): RawNetwork {
     return {
         id,
         width,
-        outputs: outputIDs.map(createBinding),
+        outputs: outputIDs.map(createRawBinding),
         type: ObjectTypes.NETWORK
     };
 }
