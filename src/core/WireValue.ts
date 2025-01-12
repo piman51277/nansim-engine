@@ -1,4 +1,4 @@
-import { IWireValue } from "../types";
+import type { IWireValue } from "../types";
 
 /**
  * Represents a value

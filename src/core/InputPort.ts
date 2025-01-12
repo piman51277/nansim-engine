@@ -1,5 +1,6 @@
-import { IBinding, IInputPort, ObjectTypes } from "../types";
-import { Module } from "./Module";
+import type { IBinding, IInputPort } from "../types";
+import type { Module } from "./Module";
+import { ObjectTypes } from "../types";
 import { WireValue } from "./WireValue";
 
 /**

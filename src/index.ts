@@ -13,16 +13,5 @@ export const Core = {
     EngineOutputPort: OutputPort,
     EngineWireValue: WireValue
 };
-export {
-    IWireValue as EngineWireValue,
-    RawBinding as EngineRawBinding,
-    RawInputPort as EngineRawInputPort,
-    RawOutputPort as EngineRawOutputPort,
-    Setable as EngineSetable,
-    ModuleTickFn as EngineModuleTickFn,
-    ModuleType as EngineModuleType,
-    RawModule as EngineRawModule,
-    RawNetwork as EngineRawNetwork,
-    RawObject as EngineRawObject,
-    ObjectTypes as EngineObjectTypes
-} from "./types";
+export type { IWireValue as EngineWireValue, RawBinding as EngineRawBinding, RawInputPort as EngineRawInputPort, RawOutputPort as EngineRawOutputPort, Setable as EngineSetable, ModuleTickFn as EngineModuleTickFn, RawModule as EngineRawModule, RawNetwork as EngineRawNetwork, RawObject as EngineRawObject } from './types';
+export { ModuleType as EngineModuleType, ObjectTypes as EngineObjectTypes } from "./types";

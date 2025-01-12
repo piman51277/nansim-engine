@@ -1,6 +1,6 @@
+import { InputPort } from '../../src/core/InputPort';
 import { Module } from '../../src/core/Module';
 import { ModuleType } from '../../src/types';
-import { InputPort } from '../../src/core/InputPort';
 import { WireValue } from '../../src/core/WireValue';
 test("constructor with bind", () => {
     const module = new Module(0, [], [], ModuleType.DEFAULT, () => null, null);

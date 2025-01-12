@@ -1,7 +1,8 @@
-import { IModule, ModuleTickFn, ModuleType, ObjectTypes, } from "../types";
-import { InputPort } from "./InputPort";
-import { OutputPort } from "./OutputPort";
-import { WireValue } from "./WireValue";
+import type { IModule, ModuleTickFn, ModuleType } from "../types";
+import type { InputPort } from "./InputPort";
+import { ObjectTypes, } from "../types";
+import type { OutputPort } from "./OutputPort";
+import type { WireValue } from "./WireValue";
 
 /**
  * Represents a module

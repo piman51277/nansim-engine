@@ -1,5 +1,6 @@
-import { INetwork, ObjectTypes } from "../types";
-import { InputPort } from "./InputPort";
+import type { INetwork } from "../types";
+import type { InputPort } from "./InputPort";
+import { ObjectTypes } from "../types";
 import { WireValue } from "./WireValue";
 
 export class Network implements INetwork {

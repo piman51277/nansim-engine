@@ -1,6 +1,7 @@
-import { IBinding, IOutputPort, ObjectTypes } from "../types";
-import { Network } from "./Network";
-import { WireValue } from "./WireValue";
+import type { IBinding, IOutputPort } from "../types";
+import type { Network } from "./Network";
+import { ObjectTypes } from "../types";
+import type { WireValue } from "./WireValue";
 
 /**
  * Represents an output port

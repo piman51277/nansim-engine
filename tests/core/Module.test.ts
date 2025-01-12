@@ -1,7 +1,7 @@
 import { InputPort } from "../../src/core/InputPort";
 import { Module } from '../../src/core/Module';
-import { OutputPort } from "../../src/core/OutputPort";
 import { ModuleType } from "../../src/types";
+import { OutputPort } from "../../src/core/OutputPort";
 
 test("constructor (empty)", () => {
     const sampleState = { "key": "value" };
