@@ -10,7 +10,9 @@ export class EngineRuntimeError extends Error {
         if (affects.length == 0) {
             super(`Runtime Error: ${message}`);
         } else {
-            const ids = affects.map((a: IEngineObject) => a.id != undefined ? a.id : "<none>").sort().join(", ");
+            const ids = affects.map((a: IEngineObject) => a.id ?? "<none>").sort((a: number, b: number) => {
+                return a - b;
+            }).join(", ");
             super(`Runtime Error affecting [${ids}]: ${message}`);
         }
         this.affects = affects;
