@@ -3,4 +3,5 @@ module.exports = {
   transform: {
     "^.+.tsx?$": ["ts-jest", {}],
   },
+  coveragePathIgnorePatterns: ["/node_modules/", "/dist/", "/tests/"],
 };

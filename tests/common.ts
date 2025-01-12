@@ -1,4 +1,5 @@
-import { ModuleType, ObjectTypes, RawBinding, RawInputPort, RawModule, RawNetwork, RawOutputPort, Setable, IWireValue } from "../src/types";
+import type { IWireValue, RawBinding, RawInputPort, RawModule, RawNetwork, RawOutputPort, Setable } from "../src/types";
+import { ModuleType, ObjectTypes } from "../src/types";
 
 /**
  * Creates a binding object 

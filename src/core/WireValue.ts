@@ -28,6 +28,20 @@ export class WireValue implements IWireValue {
         return new WireValue(width, unknownData);
     }
 
+    /**
+     * Get a new WireValue with set width and data
+     * @param {number} width The width of the wire
+     * @param {Uint8Array} data The data of the wire
+     * @returns {*}  {WireValue}
+     */
+    public static fromData(width: number, data: Uint8Array): WireValue {
+        return new WireValue(width, data);
+    }
+
+    /**
+     * Reset the data of a WireValue
+     * @param {WireValue} inst The WireValue to reset
+     */
     public static reset(inst: WireValue): void {
         inst.data.fill(2);
     }
