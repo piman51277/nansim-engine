@@ -77,6 +77,12 @@ export function isValidWireValueWidth(width: number): null | string {
 export function validateNet(arr: RawObject[]): null | ValidationError[] {
     const errors: ValidationError[] = [];
 
+    //Stage 0: We need at least one object to validate
+    if (arr.length === 0) {
+        errors.push(createValidationError([], "No objects to validate"));
+        return errors;
+    }
+
     //Stage 1: Populate mappings and check for duplicate IDs and valid types
     const mappings: Record<string, RawObject> = {};
     for (const obj of arr) {

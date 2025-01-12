@@ -4,6 +4,16 @@ import { ModuleType, ObjectTypes } from "../../src/types";
 import type { RawBinding, RawInputPort, RawModule, RawNetwork, RawOutputPort } from "../../src/types";
 import { MAX_WIREVALUE_WIDTH } from "../../src/constants";
 
+/** Stage 0 */
+
+test("empty network", () => {
+    const result = validateNet([]);
+    expect(result).not.toBeNull();
+    expect(result).toHaveLength(1);
+    expect(result![0].affects).toHaveLength(0);
+    expect(result![0].message).toContain("No objects to validate");
+});
+
 /** Stage 1 */
 
 test("object missing id (single)", () => {
@@ -496,6 +506,32 @@ test("valid Module -> outputPort -> Network binding", () => {
     const result = validateNet([outputPort, network, module]);
     expect(result).toBeNull();
 });
+test("valid Network <-> inputPort <-> Module binding", () => {
+    const inputPort: RawInputPort = {
+        id: 1,
+        width: 1,
+        bind: { id: 2 },
+        type: ObjectTypes.INPUT_PORT
+    };
+    const module: RawModule<any> = {
+        id: 2,
+        inputs: [],
+        outputs: [],
+        initialState: {},
+        moduleType: ModuleType.DEFAULT,
+        tick: () => ({}),
+        type: ObjectTypes.MODULE
+    };
+    const network: RawNetwork = {
+        id: 3,
+        outputs: [{ id: 1 }],
+        width: 1,
+        type: ObjectTypes.NETWORK
+    };
+
+    const result = validateNet([inputPort, module, network]);
+    expect(result).toBeNull();
+});
 
 /** Stage 3 */
 test("width mismatch outputPort -> Network", () => {
@@ -590,6 +626,28 @@ test("invalid width (high) inputPort", () => {
     expect(result).toHaveLength(1);
     expect(result![0].affects).toContain(inputPort);
     expect(result![0].message).toEqual(`Validation error for [1]: Width must be less than or equal to ${MAX_WIREVALUE_WIDTH}`);
+});
+test("invalid width (float) inputPort", () => {
+    const inputPort: RawInputPort = {
+        id: 1,
+        width: 1.5,
+        bind: { id: 3 },
+        type: ObjectTypes.INPUT_PORT
+    };
+    const module: RawModule<any> = {
+        id: 3,
+        inputs: [],
+        outputs: [],
+        initialState: {},
+        moduleType: ModuleType.DEFAULT,
+        tick: () => ({}),
+        type: ObjectTypes.MODULE
+    };
+    const result = validateNet([inputPort, module]);
+    expect(result).not.toBeNull();
+    expect(result).toHaveLength(1);
+    expect(result![0].affects).toContain(inputPort);
+    expect(result![0].message).toEqual("Validation error for [1]: Width must be an integer");
 });
 test("invalid width (low) outputPort", () => {
     const outputPort: RawOutputPort = {
