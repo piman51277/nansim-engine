@@ -20,7 +20,7 @@ function createValidationError(affects: RawObject[], message: string): Validatio
         affects: [],
         message: `Validation error: ${message}`
     };
-    const ids = affects.map((a: RawObject) => a.id ? a.id : "<none>").sort().join(", ");
+    const ids = affects.map((a: RawObject) => a.id != undefined ? a.id : "<none>").sort().join(", ");
     return {
         affects,
         message: `Validation error for [${ids}]: ${message}`
