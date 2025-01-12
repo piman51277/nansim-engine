@@ -11,11 +11,11 @@ export class Network implements INetwork {
     public outputs: InputPort[];
     public type: ObjectTypes.NETWORK;
 
-    private value: WireValue;
+    private readonly value: WireValue;
 
     //these are used for short-circuit and cycle detection
-    private writersThisCycle: Set<number>;
-    private writeValuesThisCycle: Map<number, Uint8Array>;
+    private readonly writersThisCycle: Set<number>;
+    private readonly writeValuesThisCycle: Map<number, Uint8Array>;
     private writesThisCycle: number;
 
     /**
@@ -148,7 +148,7 @@ export class Network implements INetwork {
 
     public resetStats(): void {
         this.writersThisCycle.clear();
-        this.writeValuesThisCycle.clear;
+        this.writeValuesThisCycle.clear();
         this.writesThisCycle = 0;
     }
 }
