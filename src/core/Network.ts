@@ -37,8 +37,9 @@ export class Network implements INetwork {
     /**
      * Propagates a value through the network
      * @param {WireValue} v value to propagate
+     * @param {number} portID id of the port that triggered the propagation
      */
-    public set(v: WireValue): void {
+    public set(v: WireValue, portID: number): void {
         //This method has to be used to preserve the references
         for (let i = 0; i < this.value.data.length; i++) {
             this.value.data[i] = v.data[i];

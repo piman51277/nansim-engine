@@ -19,7 +19,6 @@ export class OutputPort implements IOutputPort {
         this.id = id;
         this.bind = bind ?? { id: -1, val: null };
         this.type = ObjectTypes.OUTPUT_PORT;
-        this.set = this.bind.val?.set ?? ((): void => { });
     }
 
     /**
@@ -28,15 +27,13 @@ export class OutputPort implements IOutputPort {
      */
     public setBinding(bind: IBinding<Network>): void {
         this.bind = bind;
-        this.set = bind.val!.set;
     }
 
     /**
      * Sets the value of the output port
-     * @param {WireValue} _ value to assign to the output port
+     * @param {WireValue} v value to assign to the output port
      */
-    public set(_: WireValue): void {
-        //do nothing, this will be overridden when linked
-        _;
+    public set(v: WireValue): void {
+        this.bind.val?.set(v, this.id);
     }
 }

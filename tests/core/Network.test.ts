@@ -25,7 +25,7 @@ test("binds", () => {
 
     const testData = WireValue.unknown(16);
     testData.data.fill(1);
-    net.set(testData);
+    net.set(testData, 0);
 
     expect(output.value.data).toEqual(testData.data);
 });

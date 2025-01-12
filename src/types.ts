@@ -97,9 +97,10 @@ export interface IModule extends IEntityBase {
     reset: () => void;
 }
 
-export interface INetwork extends IEntityBase, Setable {
+export interface INetwork extends IEntityBase {
     outputs: IInputPort[];
     type: ObjectTypes.NETWORK;
+    set(v: IWireValue, portID: number): void;
 }
 
 export type IEngineObject = IInputPort | IOutputPort | IModule | INetwork;
