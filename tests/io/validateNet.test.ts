@@ -1,7 +1,8 @@
-import { ModuleType, ObjectTypes, RawBinding, RawInputPort, RawModule, RawNetwork, RawOutputPort } from "../../src/types";
-import { isValidBinding, validateNet } from "../../src/io/validateNet";
-import { MAX_WIREVALUE_WIDTH } from "../../src/constants";
 import { createRawCopyModule, createRawInputPort, createRawNetwork, createRawOutputPort } from "../common";
+import { isValidBinding, validateNet } from "../../src/io/validateNet";
+import { ModuleType, ObjectTypes } from "../../src/types";
+import type { RawBinding, RawInputPort, RawModule, RawNetwork, RawOutputPort } from "../../src/types";
+import { MAX_WIREVALUE_WIDTH } from "../../src/constants";
 
 /** Stage 1 */
 

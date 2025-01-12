@@ -1,5 +1,6 @@
+import type { RawBinding, RawInputPort, RawModule, RawNetwork, RawObject, RawOutputPort } from "../types";
 import { MAX_WIREVALUE_WIDTH } from "../constants";
-import { RawBinding, RawInputPort, RawModule, RawNetwork, ObjectTypes, RawOutputPort, RawObject } from "../types";
+import { ObjectTypes } from "../types";
 
 const validRawObjectTypes: string[] = Object.values(ObjectTypes);
 
