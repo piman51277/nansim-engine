@@ -1,7 +1,7 @@
-import { type IEngineObject, ObjectTypes, type RawObject } from "../types";
+import { type IEngineObject, ModuleType, ObjectTypes, type RawObject } from "../types";
+import { InputModule, Module, OutputModule } from "../core/Module";
 import type { RawModule, RawNetwork } from "../types";
 import { InputPort } from "../core/InputPort";
-import { Module } from "../core/Module";
 import { Network } from "../core/Network";
 import { OutputPort } from "../core/OutputPort";
 
@@ -28,7 +28,19 @@ export function linkNet(arr: RawObject[]): Map<number, IEngineObject> {
             }));
         }
         else if (obj.type == ObjectTypes.MODULE) {
-            mappings.set(obj.id, new Module(obj.id, [], [], obj.moduleType, obj.tick, obj.initialState));
+            //default module
+            let module: Module | null = null;
+            if (obj.moduleType == ModuleType.DEFAULT) {
+                module = new Module(obj.id, [], [], obj.moduleType, obj.tick, obj.initialState);
+            }
+            else if (obj.moduleType == ModuleType.INPUT) {
+                module = new InputModule(obj.id, [], obj.width);
+            }
+            else {
+                module = new OutputModule(obj.id, [], obj.width);
+            }
+
+            mappings.set(obj.id, module);
         }
         else if (obj.type == ObjectTypes.NETWORK) {
             mappings.set(obj.id, new Network(obj.id, obj.width, []));

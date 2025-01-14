@@ -44,15 +44,25 @@ export enum ModuleType {
     OUTPUT = "OUTPUT",
     DEFAULT = "DEFAULT",
 }
-export type RawModule<StateType> = {
+export type RawDefaultModule<StateType> = {
     id: number;
     inputs: RawBinding[];
     outputs: RawBinding[];
-    moduleType: ModuleType;
+    moduleType: ModuleType.DEFAULT;
     initialState: StateType;
     tick: ModuleTickFn<StateType>;
     type: ObjectTypes.MODULE;
 }
+export type RawIOModule = {
+    id: number;
+    inputs: RawBinding[];
+    outputs: RawBinding[];
+    moduleType: ModuleType.INPUT | ModuleType.OUTPUT;
+    width: number;
+    type: ObjectTypes.MODULE;
+}
+
+export type RawModule<StateType> = RawDefaultModule<StateType> | RawIOModule;
 
 export type RawNetwork = {
     id: number;
@@ -73,7 +83,7 @@ export interface IBinding<T> extends IEntityBase {
 }
 
 export interface IInputPort extends IEntityBase {
-    bind: IBinding<IModule>;
+    bind: IBinding<IModuleBase>;
     value: IWireValue;
     type: ObjectTypes.INPUT_PORT;
     reset: () => void;
@@ -84,7 +94,7 @@ export interface IOutputPort extends IEntityBase, Setable {
     type: ObjectTypes.OUTPUT_PORT;
 }
 
-export interface IModule extends IEntityBase {
+export interface IModuleBase extends IEntityBase {
     inputs: IInputPort[];
     outputs: IOutputPort[];
     moduleType: ModuleType;
@@ -96,6 +106,25 @@ export interface IModule extends IEntityBase {
     tickFn: ModuleTickFn<any>;
     reset: () => void;
 }
+export interface IModuleDefault extends IModuleBase {
+    moduleType: ModuleType.DEFAULT;
+}
+export interface IModuleInput extends IModuleBase {
+    moduleType: ModuleType.INPUT;
+    resetState: IWireValue;
+    state: IWireValue;
+    tickFn: ModuleTickFn<IWireValue>;
+    set: (v: IWireValue) => void;
+}
+export interface IModuleOutput extends IModuleBase {
+    moduleType: ModuleType.OUTPUT;
+    resetState: IWireValue;
+    state: IWireValue;
+    tickFn: ModuleTickFn<IWireValue>;
+    get(): IWireValue;
+}
+
+export type IModule = IModuleDefault | IModuleInput | IModuleOutput;
 
 export interface INetwork extends IEntityBase {
     outputs: IInputPort[];
@@ -103,4 +132,4 @@ export interface INetwork extends IEntityBase {
     set(v: IWireValue, portID: number): void;
 }
 
-export type IEngineObject = IInputPort | IOutputPort | IModule | INetwork;
+export type IEngineObject = IInputPort | IOutputPort | IModuleBase | INetwork;

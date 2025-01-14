@@ -1,6 +1,7 @@
+import { ModuleType, ObjectTypes } from "../types";
 import type { RawBinding, RawNetwork, RawObject, RawOutputPort } from "../types";
 import { MAX_WIREVALUE_WIDTH } from "../constants";
-import { ObjectTypes } from "../types";
+
 
 const validRawObjectTypes: string[] = Object.values(ObjectTypes);
 
@@ -132,6 +133,34 @@ export function validateNet(arr: RawObject[]): null | ValidationError[] {
             for (const output of module.outputs) {
                 const bindingError = isValidBinding(output, mappings, ObjectTypes.OUTPUT_PORT);
                 if (bindingError) errors.push(createValidationError([module], bindingError));
+            }
+
+            //check extra module properties for input/output modules
+
+            //input modules 
+            if (module.moduleType === ModuleType.INPUT) {
+                //input modules cannot have inputs
+                if (module.inputs.length > 0) {
+                    errors.push(createValidationError([module], "Input modules cannot have inputs"));
+                }
+
+                //input modules must have exactly one output
+                if (module.outputs.length !== 1) {
+                    errors.push(createValidationError([module], "Input modules must have exactly one output"));
+                }
+            }
+
+            //output modules
+            if (module.moduleType === ModuleType.OUTPUT) {
+                //output modules cannot have outputs
+                if (module.outputs.length > 0) {
+                    errors.push(createValidationError([module], "Output modules cannot have outputs"));
+                }
+
+                //output modules must have exactly one input
+                if (module.inputs.length !== 1) {
+                    errors.push(createValidationError([module], "Output modules must have exactly one input"));
+                }
             }
         }
         else if (type == ObjectTypes.NETWORK) {

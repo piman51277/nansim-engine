@@ -1,7 +1,7 @@
 import { createRawCopyModule, createRawInputPort, createRawNetwork, createRawOutputPort } from "../common";
 import { isValidBinding, validateNet } from "../../src/io/validateNet";
 import { ModuleType, ObjectTypes } from "../../src/types";
-import type { RawBinding, RawInputPort, RawModule, RawNetwork, RawOutputPort } from "../../src/types";
+import type { RawBinding, RawInputPort, RawIOModule, RawModule, RawNetwork, RawOutputPort } from "../../src/types";
 import { MAX_WIREVALUE_WIDTH } from "../../src/constants";
 
 /** Stage 0 */
@@ -288,6 +288,147 @@ test("module invalid input/output bindings", () => {
     expect(messages).toContain("Validation error for [1]: Binding target (id:2) does not exist");
     expect(messages).toContain("Validation error for [1]: Binding target (id:3) does not exist");
 });
+test("input module has input bindings", () => {
+    const network = createRawNetwork(0, 1, []);
+    const outputPort: RawOutputPort = createRawOutputPort(1, 1, 0);
+    const inputPort: RawInputPort = createRawInputPort(2, 1, 3);
+    const module: RawIOModule = {
+        id: 3,
+        inputs: [{ id: 2 }],
+        outputs: [{ id: 1 }],
+        moduleType: ModuleType.INPUT,
+        width: 1,
+        type: ObjectTypes.MODULE
+    };
+
+    const result = validateNet([network, outputPort, inputPort, module]);
+    expect(result).not.toBeNull();
+    expect(result).toHaveLength(1);
+
+    expect(result![0].affects).toContain(module);
+    expect(result![0].message).toEqual("Validation error for [3]: Input modules cannot have inputs");
+});
+test("output module has output bindings", () => {
+    const network = createRawNetwork(0, 1, []);
+    const outputPort: RawOutputPort = createRawOutputPort(1, 1, 0);
+    const inputPort: RawInputPort = createRawInputPort(2, 1, 3);
+    const module: RawIOModule = {
+        id: 3,
+        inputs: [{ id: 2 }],
+        outputs: [{ id: 1 }],
+        moduleType: ModuleType.OUTPUT,
+        width: 1,
+        type: ObjectTypes.MODULE
+    };
+
+    const result = validateNet([network, outputPort, inputPort, module]);
+    expect(result).not.toBeNull();
+    expect(result).toHaveLength(1);
+
+    expect(result![0].affects).toContain(module);
+    expect(result![0].message).toEqual("Validation error for [3]: Output modules cannot have outputs");
+});
+test("input module has no outputs", () => {
+    const module: RawIOModule = {
+        id: 3,
+        inputs: [],
+        outputs: [],
+        moduleType: ModuleType.INPUT,
+        width: 1,
+        type: ObjectTypes.MODULE
+    };
+    const result = validateNet([module]);
+    expect(result).not.toBeNull();
+    expect(result).toHaveLength(1);
+
+    expect(result![0].affects).toContain(module);
+    expect(result![0].message).toEqual("Validation error for [3]: Input modules must have exactly one output");
+});
+test("input module has more than one output", () => {
+    const network = createRawNetwork(0, 1, []);
+    const outputPort1: RawOutputPort = createRawOutputPort(1, 1, 0);
+    const outputPort2: RawOutputPort = createRawOutputPort(2, 1, 0);
+    const module: RawIOModule = {
+        id: 3,
+        inputs: [],
+        outputs: [{ id: 1 }, { id: 2 }],
+        moduleType: ModuleType.INPUT,
+        width: 1,
+        type: ObjectTypes.MODULE
+    };
+
+    const result = validateNet([network, outputPort1, outputPort2, module]);
+    expect(result).not.toBeNull();
+    expect(result).toHaveLength(1);
+
+    expect(result![0].affects).toContain(module);
+    expect(result![0].message).toEqual("Validation error for [3]: Input modules must have exactly one output");
+});
+test("input module has exactly one output", () => {
+    const network = createRawNetwork(0, 1, []);
+    const outputPort: RawOutputPort = createRawOutputPort(1, 1, 0);
+    const module: RawIOModule = {
+        id: 3,
+        inputs: [],
+        outputs: [{ id: 1 }],
+        moduleType: ModuleType.INPUT,
+        width: 1,
+        type: ObjectTypes.MODULE
+    };
+
+    const result = validateNet([network, outputPort, module]);
+    expect(result).toBeNull();
+});
+test("output module has no inputs", () => {
+    const module: RawIOModule = {
+        id: 3,
+        inputs: [],
+        outputs: [],
+        moduleType: ModuleType.OUTPUT,
+        width: 1,
+        type: ObjectTypes.MODULE
+    };
+    const result = validateNet([module]);
+    expect(result).not.toBeNull();
+    expect(result).toHaveLength(1);
+
+    expect(result![0].affects).toContain(module);
+    expect(result![0].message).toEqual("Validation error for [3]: Output modules must have exactly one input");
+});
+test("output module has more than one input", () => {
+    const inputPort1: RawInputPort = createRawInputPort(1, 1, 0);
+    const inputPort2: RawInputPort = createRawInputPort(2, 1, 0);
+    const module: RawIOModule = {
+        id: 0,
+        inputs: [{ id: 1 }, { id: 2 }],
+        outputs: [],
+        moduleType: ModuleType.OUTPUT,
+        width: 1,
+        type: ObjectTypes.MODULE
+    };
+
+    const result = validateNet([inputPort1, inputPort2, module]);
+    expect(result).not.toBeNull();
+    expect(result).toHaveLength(1);
+
+    expect(result![0].affects).toContain(module);
+    expect(result![0].message).toEqual("Validation error for [0]: Output modules must have exactly one input");
+});
+test("output module has exactly one input", () => {
+    const inputPort: RawInputPort = createRawInputPort(1, 1, 0);
+    const module: RawIOModule = {
+        id: 0,
+        inputs: [{ id: 1 }],
+        outputs: [],
+        moduleType: ModuleType.OUTPUT,
+        width: 1,
+        type: ObjectTypes.MODULE
+    };
+
+    const result = validateNet([inputPort, module]);
+    expect(result).toBeNull();
+});
+
 test("network invalid output binding", () => {
     const network: RawNetwork = {
         id: 1,
