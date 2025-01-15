@@ -3,12 +3,12 @@ import type { InputModule, Module, OutputModule } from "../../src/core/Module";
 import { ModuleType, ObjectTypes } from "../../src/types";
 import { Engine } from '../../src/core/Engine';
 import { ExtraInputError } from "../../src/core/errors/ExtraInputError";
+import { InfiniteLoopError } from "../../src/core/errors/InfiniteLoopError";
 import { InvalidInputError } from "../../src/core/errors/InvalidInputError";
 import { linkNet } from '../../src/io/linkNet';
 import { MissingInputError } from "../../src/core/errors/MissingInputError";
 import type { RawObject } from "../../src/types";
 import { ShortCircuitError } from "../../src/core/errors/ShortCircuitError";
-import { InfiniteLoopError } from "../../src/core/errors/InfiniteLoopError";
 
 /**
  * Creates a sample (raw) network with two inputs, a copy module, and two outputs
