@@ -2,7 +2,7 @@
   "name": "nansim-engine",
   "version": "1.0.0",
   "description": "internal evaluation engine for NaNsim",
-  "main": "src/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "build": "tsc",
     "test": "jest",

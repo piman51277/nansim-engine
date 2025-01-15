@@ -1,3 +1,4 @@
+import { Engine } from "./core/Engine";
 import { InputPort } from "./core/InputPort";
 import { Module } from "./core/Module";
 import { Network } from "./core/Network";
@@ -11,7 +12,8 @@ export const Core = {
     EngineModule: Module,
     EngineNetwork: Network,
     EngineOutputPort: OutputPort,
-    EngineWireValue: WireValue
+    EngineWireValue: WireValue,
+    Engine: Engine
 };
 export type { IWireValue as EngineWireValue, RawBinding as EngineRawBinding, RawInputPort as EngineRawInputPort, RawOutputPort as EngineRawOutputPort, Setable as EngineSetable, ModuleTickFn as EngineModuleTickFn, RawModule as EngineRawModule, RawNetwork as EngineRawNetwork, RawObject as EngineRawObject } from './types';
 export { ModuleType as EngineModuleType, ObjectTypes as EngineObjectTypes } from "./types";
