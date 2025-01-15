@@ -1,4 +1,4 @@
-import type { IWireValue, RawBinding, RawInputPort, RawModule, RawNetwork, RawOutputPort, Setable } from "../src/types";
+import type { IWireValue, RawBinding, RawInputPort, RawIOModule, RawModule, RawNetwork, RawOutputPort, Setable } from "../src/types";
 import { ModuleType, ObjectTypes } from "../src/types";
 
 /**
@@ -64,6 +64,42 @@ export function createRawCopyModule(id: number, inputIDs: number[], outputIDs: n
             }
             return null;
         },
+        type: ObjectTypes.MODULE
+    };
+}
+
+/**
+ * Creates an input module
+ * @param {number} id id to assign to the module
+ * @param {number} outputID id of the output binding
+ * @param {number} width value width
+ * @returns {*}  {RawIOModule}
+ */
+export function createRawInputModule(id: number, outputID: number, width: number): RawIOModule {
+    return {
+        id,
+        outputs: [createRawBinding(outputID)],
+        width,
+        inputs: [],
+        moduleType: ModuleType.INPUT,
+        type: ObjectTypes.MODULE
+    };
+}
+
+/**
+ * Creates an output module
+ * @param {number} id id to assign to the module
+ * @param {number} inputID id of the input binding
+ * @param {number} width value width
+ * @returns {*}  {RawIOModule}
+ */
+export function createRawOutputModule(id: number, inputID: number, width: number): RawIOModule {
+    return {
+        id,
+        inputs: [createRawBinding(inputID)],
+        width,
+        outputs: [],
+        moduleType: ModuleType.OUTPUT,
         type: ObjectTypes.MODULE
     };
 }

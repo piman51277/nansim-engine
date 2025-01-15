@@ -51,6 +51,8 @@ export class Network implements INetwork {
      * Propagates a value through the network
      * @param {WireValue} v value to propagate
      * @param {number} portID id of the port that triggered the propagation
+     * @throws {ShortCircuitError} if a short-circuit is detected
+     * @throws {InfiniteLoopError} if the network is stuck in a loop
      */
     public set(v: WireValue, portID: number): void {
         //is this the first write this cycle?

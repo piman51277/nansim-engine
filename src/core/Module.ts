@@ -1,6 +1,6 @@
 import type { IModuleBase, IModuleInput, IModuleOutput, ModuleTickFn } from "../types";
-import { ModuleType } from "../types";
 import type { InputPort } from "./InputPort";
+import { ModuleType } from "../types";
 import { ObjectTypes, } from "../types";
 import type { OutputPort } from "./OutputPort";
 import { WireValue } from "./WireValue";
