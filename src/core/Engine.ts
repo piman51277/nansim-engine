@@ -4,9 +4,9 @@ import type { InputModule, OutputModule } from "./Module";
 import { ExtraInputError } from "./errors/ExtraInputError";
 import type { IWireValue } from "../types";
 import { MissingInputError } from "./errors/MissingInputError";
+import type { Network } from "./Network";
 import { validateValue } from "../io/validateValue";
 import { WireValue } from "./WireValue";
-import type { Network } from "./Network";
 
 /**
  * Class that abstracts the linked objects into a coherent engine.
