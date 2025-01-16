@@ -1,5 +1,5 @@
 {
-  "name": "nansim-engine",
+  "name": "@nansim/nansim-engine",
   "version": "1.0.0",
   "description": "internal evaluation engine for NaNsim",
   "main": "dist/src/index.js",

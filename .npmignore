@@ -1,0 +1,8 @@
+.git/
+node_modules/
+dist/
+coverage/
+src/
+tests/
+*.json
+*.config.js
