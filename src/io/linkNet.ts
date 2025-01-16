@@ -42,7 +42,7 @@ export function linkNet(arr: RawObject[]): Map<number, IEngineObject> {
 
             mappings.set(obj.id, module);
         }
-        else if (obj.type == ObjectTypes.NETWORK) {
+        else {
             mappings.set(obj.id, new Network(obj.id, obj.width, []));
         }
         rawObjects[obj.id] = obj;
@@ -71,7 +71,7 @@ export function linkNet(arr: RawObject[]): Map<number, IEngineObject> {
             }
             module.setBinds();
         }
-        else if (engineObj.type == ObjectTypes.NETWORK) {
+        else {
             const network = engineObj as Network;
             const rawObj = rawObjects[id] as RawNetwork;
             for (const output of rawObj.outputs) {
