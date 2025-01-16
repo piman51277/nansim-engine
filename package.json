@@ -1,13 +1,17 @@
 {
   "name": "@nansim/nansim-engine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "internal evaluation engine for NaNsim",
   "main": "dist/src/index.js",
   "scripts": {
     "build": "tsc",
     "test": "jest",
     "lint": "eslint . --ext .ts",
-    "publish": "npm publish --access public"
+    "publish": "npm run build && npm publish --access public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/piman51277/nansim-engine.git"
   },
   "author": "piman51277",
   "license": "UNLICENSED",
