@@ -1,5 +1,7 @@
 import type { IModuleBase, IModuleInput, IModuleOutput, ModuleTickFn } from "../types";
+import { EngineRuntimeError } from "./errors/EngineRuntimeError";
 import type { InputPort } from "./InputPort";
+import { ModuleTickError } from "./errors/ModuleTickError";
 import { ModuleType } from "../types";
 import { ObjectTypes, } from "../types";
 import type { OutputPort } from "./OutputPort";
@@ -55,17 +57,37 @@ export class Module implements IModuleBase {
     }
 
     /**
-     * Resets the state of the module
+     * Resets the state of the module.
      */
     public reset(): void {
-        this.state = structuredClone(this.resetState);
+        //if the state exposes a reset method, call it
+        if (this.state?.reset != undefined) {
+            this.state.reset();
+        }
+        else {
+            this.state = structuredClone(this.resetState);
+        }
     }
 
     /**
      * Advances the module by one tick
      */
     public tick(): void {
-        this.state = this.tickFn(this.inputValues, this.outputs, this.state);
+        try {
+            this.state = this.tickFn(this.inputValues, this.outputs, this.state);
+        }
+        catch (e: any) {
+            //check whether or not this error occured in the module tick function
+            //or was thrown by the engine itself
+            if (!(e instanceof EngineRuntimeError)) {
+                //package it so the affected module can be identified
+                throw new ModuleTickError([this], e);
+            }
+            else {
+                //propagate it up with no changes
+                throw e;
+            }
+        }
     }
 }
 

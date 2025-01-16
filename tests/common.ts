@@ -69,6 +69,27 @@ export function createRawCopyModule(id: number, inputIDs: number[], outputIDs: n
 }
 
 /**
+ * Creates a module that throws an error
+ * @param {number} id id to assign to the module
+ * @param {number[]} inputIDs array of input binding IDs
+ * @param {number[]} outputIDs array of output binding IDs
+ * @returns {*}  {RawModule<null>}
+ */
+export function createRawErrorModule(id: number, inputIDs: number[], outputIDs: number[]): RawModule<null> {
+    return {
+        id,
+        inputs: inputIDs.map(createRawBinding),
+        outputs: outputIDs.map(createRawBinding),
+        moduleType: ModuleType.DEFAULT,
+        initialState: null,
+        tick: (): null => {
+            throw new Error("Error module");
+        },
+        type: ObjectTypes.MODULE
+    };
+}
+
+/**
  * Creates an input module
  * @param {number} id id to assign to the module
  * @param {number} outputID id of the output binding
